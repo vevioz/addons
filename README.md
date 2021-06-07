@@ -1,10 +1,3 @@
-# Vevioz is Great Social Media for Entrepreneurs
-https://www.vevioz.com has the combined powers of Facebook, LinkedIn, Amazon, Ebay, Sales Force and Marketo. These tools are provided free to help you build your business.
+This allows browser users to download and convert YouTube videos to mp3 (320) kbps files and also videos with a variety of high quality options 2160p (4k), 1440p (2k), 1080p (HD), 720p (HD), 480p, 360p, 144p etc. This video quality is supported for all available video formats (MP4, WEBM, 3GP).
 
-https://www.vevioz.com Will never limit or ban your account, please feel the true freedom, registered millions of active members are waiting for you.
-
-To access these tools either login with your current account or sign up for a free account using the email services below or 
-
-Sign up quickly 1 click via Google login. Click this https://www.vevioz.com/login-with.php?provider=Google
-
-Thank you in advance
+https://addons.vevioz.com
