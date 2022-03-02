@@ -160,8 +160,8 @@
         $('source#vid').attr('src', 'https://www.youtube.com/watch?v=' + getUrlParameter('id'));
         $(document).ready(function () {
             $('audio').attr('src', 'https://www.youtube.com/watch?v=' + getUrlParameter('id'));
-            $('iframe#mp3').attr('src', 'https://api.vevioz.com/@api/button/mp3/' + getUrlParameter('id'));
-            $('iframe#mp4').attr('src', 'https://api.vevioz.com/@api/button/videos/merged/' + getUrlParameter('id'));
+            $('iframe#mp3').attr('src', 'https://api.vevioz.com/api/button/mp3/' + getUrlParameter('id'));
+            $('iframe#mp4').attr('src', 'https://api.vevioz.com/api/button/videos/' + getUrlParameter('id'));
         });
         $(document).ready(function () {
             $('audio').mediaelementplayer();
