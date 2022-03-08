@@ -62,7 +62,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="https://www.vevioz.com/login-with.php?provider=Google" target="_blank"><i
                                         class="fa-solid fa-arrow-right-to-bracket"></i> <span
-                                        class="d-none d-sm-inline-block"><b>LOGIN</b></span></a>
+                                        class="d-none d-sm-inline-block"><b>SIGN IN</b></span></a>
                             </li>
                         </ul>
                     </div>
@@ -116,7 +116,7 @@
                         <hr>
                         <div class="text-center">
                             <b>
-                                Copyright © 2018-2021 YouTube Downloader Addons<br>
+                                Copyright © 2018-2022 YouTube Downloader Addons<br>
                                 All Rigts Reserved
                             </b>
                         </div>
@@ -153,8 +153,8 @@
         $('source#vid').attr('src', 'https://www.youtube.com/watch?v=' + getUrlParameter('id'));
         $(document).ready(function () {
             $('audio').attr('src', 'https://www.youtube.com/watch?v=' + getUrlParameter('id'));
-            $('iframe#mp3').attr('src', 'https://api.vevioz.com/@api/button/mp3/' + getUrlParameter('id'));
-            $('iframe#mp4').attr('src', 'https://api.vevioz.com/@api/button/videos/merged/' + getUrlParameter('id'));
+            $('iframe#mp3').attr('src', 'https://api.vevioz.com/api/button/mp3/' + getUrlParameter('id'));
+            $('iframe#mp4').attr('src', 'https://api.vevioz.com/api/button/videos/' + getUrlParameter('id'));
         });
         $(document).ready(function () {
             $('audio').mediaelementplayer();
