@@ -147,7 +147,7 @@
         $(document).ready(function () {
             $('audio').attr('src', 'https://www.youtube.com/watch?v=' + getUrlParameter('id'));
             $('iframe#mp3').attr('src', 'https://api.vevioz.com/api/button/mp3/' + getUrlParameter('id'));
-            $('iframe#mp4').attr('src', 'https://mp4api.ytjar.info/?id=' + getUrlParameter('id'));
+            $('iframe#mp4').attr('src', 'https://ytconvert.me/api/single/mp4?url=https://www.youtube.com/watch?v=' + getUrlParameter('id'));
         });
         $(document).ready(function () {
             $('audio').mediaelementplayer();
