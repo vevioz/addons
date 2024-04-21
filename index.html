@@ -162,8 +162,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         $('source#vid').attr('src', 'https://www.youtube.com/watch?v=' + getUrlParameter('id'));
         $(document).ready(function () {
             $('audio').attr('src', 'https://www.youtube.com/watch?v=' + getUrlParameter('id'));
-            $('iframe#mp3').attr('src', 'https://api.vevioz.com/apis/button/mp3?url=https://www.youtube.com/watch?v=' + getUrlParameter('id'));
-            $('iframe#mp4').attr('src', 'https://api.vevioz.com/apis/button/mp4?url=https://www.youtube.com/watch?v=' + getUrlParameter('id'));
+            $('iframe#mp3').attr('src', '//mp3api.ytjar.info/?id=' + getUrlParameter('id'));
+            $('iframe#mp4').attr('src', '//mp4api.ytjar.info/?id=' + getUrlParameter('id'));
 			iFrameResize({ log: false }, '#mp4')
         });
         $(document).ready(function () {
