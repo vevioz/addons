@@ -102,6 +102,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 src="" width="100%" height="100%"
                                 allowtransparency="true" scrolling="no" style="border:none"></iframe>
                         </div>
+						<hr>
                         <div class="row">
                             <iframe id="mp4" class="button-api-frame"
                                 src="" width="100%" height="100%"
@@ -162,8 +163,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         $('source#vid').attr('src', 'https://www.youtube.com/watch?v=' + getUrlParameter('id'));
         $(document).ready(function () {
             $('audio').attr('src', 'https://www.youtube.com/watch?v=' + getUrlParameter('id'));
-            $('iframe#mp3').attr('src', '//mp3api.ytjar.info/?id=' + getUrlParameter('id'));
-            $('iframe#mp4').attr('src', '//mp4api.ytjar.info/?id=' + getUrlParameter('id'));
+            $('iframe#mp3').attr('src', 'https://api.vevioz.com/apis/single/mp3?url=https://www.youtube.com/watch?v=' + getUrlParameter('id'));
+            $('iframe#mp4').attr('src', 'https://api.vevioz.com/apis/single/mp4?url=https://www.youtube.com/watch?v=' + getUrlParameter('id'));
 			iFrameResize({ log: false }, '#mp4')
         });
         $(document).ready(function () {
