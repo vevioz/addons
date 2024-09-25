@@ -27,6 +27,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-NM7QMCN');</script>
 <!-- End Google Tag Manager -->
+<script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+<script type="text/javascript">
+    aclib.runAutoTag({
+        zoneId: 'i91kz6mnjr',
+    });
+</script>
 	</head>
 <body style="background-color: black;">
     <div class="m-4 mb-0">
@@ -159,8 +165,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         $('source#vid').attr('src', 'https://www.youtube.com/watch?v=' + getUrlParameter('id'));
         $(document).ready(function () {
             $('audio').attr('src', 'https://www.youtube.com/watch?v=' + getUrlParameter('id'));
-            $('iframe#mp3').attr('src', 'https://api.vevioz.com/apis/single/mp3?url=https://www.youtube.com/watch?v=' + getUrlParameter('id'));
-            $('iframe#mp4').attr('src', 'https://api.vevioz.com/apis/single/mp4?url=https://www.youtube.com/watch?v=' + getUrlParameter('id'));
+            $('iframe#mp3').attr('src', '//mp4api.ytjar.info/?id=' + getUrlParameter('id'));
+            $('iframe#mp4').attr('src', '//mp3api.ytjar.info/?id=' + getUrlParameter('id'));
 			iFrameResize({ log: false }, '#mp4')
         });
         $(document).ready(function () {
