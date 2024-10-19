@@ -33,6 +33,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             f.parentNode.insertBefore(a,f)})(window,document,'script', 'https://invitejs.trustpilot.com/tp.min.js', 'tp');
             tp('register', 'BIRbHdP59F7eTCrx');
 </script>
+<script> 
+	document.addEventListener('DOMContentLoaded', function() {
+		const trustpilot_invitation = {
+   			recipientEmail: 'john@gmail.com',
+   			recipientName: 'John',
+   			referenceId: 'Order_123',
+   			source: 'InvitationScript',
+  		};
+  		tp('createInvitation', trustpilot_invitation);
+	});
+</script>
 	</head>
 <body style="background-color: black;">
     <div class="m-4 mb-0">
