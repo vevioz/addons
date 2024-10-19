@@ -172,28 +172,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <script>
-        function openNewTab() {
-            // Buka tab baru saat tombol diklik
-            const newWindow = window.open('https://www.vevioz.com', '_blank');
+function openNewTab() {
+    // Buka tab baru saat tombol diklik
+    const newWindow = window.open('https://www.vevioz.com', '_blank');
 
-            // Cek jika tab berhasil dibuka atau diblokir
-            if (newWindow) {
-                newWindow.focus();
-            } else {
-                alert('Pastikan pop-up tidak diblokir oleh browser Anda.');
-            }
+    // Cek jika tab berhasil dibuka atau diblokir
+    if (newWindow) {
+        newWindow.focus();
+    } else {
+        alert('Pastikan pop-up tidak diblokir oleh browser Anda.');
+    }
+}
+
+// Fungsi untuk memastikan klik pertama saja yang membuka tab
+document.addEventListener('DOMContentLoaded', () => {
+    let hasClicked = false;
+    document.getElementById('openTabButton').addEventListener('click', function() {
+        if (!hasClicked) {
+            hasClicked = true;
+            openNewTab();
         }
-
-        // Fungsi untuk memastikan klik pertama saja yang membuka tab
-        document.addEventListener('DOMContentLoaded', () => {
-            let hasClicked = false;
-            document.getElementById('openTabButton').addEventListener('click', function() {
-                if (!hasClicked) {
-                    hasClicked = true;
-                    openNewTab();
-                }
-            });
-        });
+    });
+});
 </script>
 </body>
 </html>
