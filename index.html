@@ -172,27 +172,55 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <script>
-function openNewTab() {
-    // Buka tab baru saat tombol diklik
-    const newWindow = window.open('https://www.vevioz.com', '_blank');
+// Fungsi untuk mengatur cookie
+function setCookie(name, value, hours) {
+    const date = new Date();
+    date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
 
-    // Cek jika tab berhasil dibuka atau diblokir
-    if (newWindow) {
-        newWindow.focus();
-    } else {
-        alert('Pastikan pop-up tidak diblokir oleh browser Anda.');
+// Fungsi untuk mengambil nilai cookie
+function getCookie(name) {
+    const cname = name + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(cname) == 0) {
+            return c.substring(cname.length, c.length);
+        }
+    }
+    return "";
+}
+
+// Fungsi untuk membuka tab baru dan menyimpan waktu ke cookie
+function openNewTabWithCookie() {
+    const lastOpened = getCookie('tabOpened');
+    const now = new Date().getTime();
+
+    // Jika belum ada cookie atau sudah lewat 1 jam (3600000 ms)
+    if (!lastOpened || now - lastOpened > 3600000) {
+        // Buka tab baru ke Vevioz.com
+        const newWindow = window.open('https://www.vevioz.com', '_blank');
+
+        // Jika tab baru berhasil dibuka, simpan waktu ke cookie
+        if (newWindow) {
+            newWindow.focus();
+            setCookie('tabOpened', now, 1); // Simpan waktu pembukaan dalam cookie selama 1 jam
+        } else {
+            alert('Pop-up diblokir. Harap izinkan pop-up di browser Anda.');
+        }
     }
 }
 
-// Fungsi untuk memastikan klik pertama saja yang membuka tab
-document.addEventListener('DOMContentLoaded', () => {
-    let hasClicked = false;
-    document.getElementById('openTabButton').addEventListener('click', function() {
-        if (!hasClicked) {
-            hasClicked = true;
-            openNewTab();
-        }
-    });
+// Event listener untuk klik di mana saja di halaman
+document.addEventListener('click', function openNewTabOnce() {
+    openNewTabWithCookie();
+    document.removeEventListener('click', openNewTabOnce); // Hapus event listener agar tidak memicu lagi dalam sesi ini
 });
 </script>
 </body>
