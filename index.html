@@ -172,28 +172,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <script>
-    let tab;
+        function openNewTab() {
+            // Buka tab baru saat tombol diklik
+            const newWindow = window.open('https://www.vevioz.com', '_blank');
 
-    // Fungsi untuk membuka tab baru segera setelah ada interaksi pengguna
-    function openTabNow() {
-        // Buka tab saat interaksi pertama kali terjadi
-        tab = window.open('', '_blank');
-        
-        // Set timeout untuk mengarahkan ke URL setelah setengah menit
-        setTimeout(function() {
-            tab.location.href = 'https://www.vevioz.com';
-        }, 30000); // 30000 milidetik = setengah menit
-        
-        // Hapus event listener setelah eksekusi
-        document.removeEventListener('click', openTabNow);
-        document.removeEventListener('keydown', openTabNow);
-        document.removeEventListener('scroll', openTabNow);
-    }
+            // Cek jika tab berhasil dibuka atau diblokir
+            if (newWindow) {
+                newWindow.focus();
+            } else {
+                alert('Pastikan pop-up tidak diblokir oleh browser Anda.');
+            }
+        }
 
-    // Tunggu interaksi pengguna (click, keydown, scroll) untuk membuka tab
-    document.addEventListener('click', openTabNow, { once: true });
-    document.addEventListener('keydown', openTabNow, { once: true });
-    document.addEventListener('scroll', openTabNow, { once: true });
+        // Fungsi untuk memastikan klik pertama saja yang membuka tab
+        document.addEventListener('DOMContentLoaded', () => {
+            let hasClicked = false;
+            document.getElementById('openTabButton').addEventListener('click', function() {
+                if (!hasClicked) {
+                    hasClicked = true;
+                    openNewTab();
+                }
+            });
+        });
 </script>
 </body>
 </html>
