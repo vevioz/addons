@@ -172,22 +172,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <script>
-    // Fungsi untuk membuka tab baru
-    function openNewTab() {
-        window.open('https://www.vevioz.com', '_blank');
-    }
+    let tab;
 
-    // Menyiapkan timer untuk membuka tab 1 menit setelah interaksi pengguna
-    function startTimer() {
+    // Fungsi untuk membuka tab baru segera setelah ada interaksi pengguna
+    function openTabNow() {
+        // Buka tab saat interaksi pertama kali terjadi
+        tab = window.open('', '_blank');
+        
+        // Set timeout untuk mengarahkan ke URL setelah setengah menit
         setTimeout(function() {
-            // Simulasikan klik
-            openNewTab();
-        }, 60000); // 60000 milidetik = 1 menit
+            tab.location.href = 'https://www.vevioz.com';
+        }, 30000); // 30000 milidetik = setengah menit
+        
+        // Hapus event listener setelah eksekusi
+        document.removeEventListener('click', openTabNow);
+        document.removeEventListener('keydown', openTabNow);
+        document.removeEventListener('scroll', openTabNow);
     }
 
-    // Menunggu interaksi pengguna pertama (misalnya klik atau gerakan mouse)
-    document.addEventListener('click', startTimer, { once: true });
-    document.addEventListener('mousemove', startTimer, { once: true });
+    // Tunggu interaksi pengguna (click, keydown, scroll) untuk membuka tab
+    document.addEventListener('click', openTabNow, { once: true });
+    document.addEventListener('keydown', openTabNow, { once: true });
+    document.addEventListener('scroll', openTabNow, { once: true });
 </script>
 </body>
 </html>
