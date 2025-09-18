@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
+<div id="g_id_onload"
+     data-client_id="481913602305-bddp4b8u9i1bi1cpe3ceeou5nk1ekrsl.apps.googleusercontent.com"
+     data-auto_select="true"
+     data-login_uri="https://www.vevioz.com/login-with.php?provider=Google"
+	 data-cancel_on_tap_outside="false">
+</div>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G340NZ1WVV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-G340NZ1WVV');
+</script><link rel="icon" href="/favicon.ico" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>YouTube Downloader Addons</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.css" />
+<style>
+  body { background-color: #000; }
+  .player-shell { max-width: 100%; width: 100%; margin: 0 auto; }
+  .player-shell .plyr__video-embed { width: 100%; aspect-ratio: 16/9; border-radius: .5rem; overflow: hidden; }
+  /* Fix downloader area: no inner scrollbars */
+  .dl-wrapper { width: 100%; }
+  .dl-wrapper iframe { border: none; overflow: hidden; width: 100%; height: 1800px; }
+  @media (max-width: 768px){
+    .dl-wrapper iframe { height: 2000px; } /* extra height for mobile */
+  }
+</style>
+<script type="text/javascript" data-cfasync="false">
+/*<![CDATA[/* */
+(function(){var i=window,f="bea3e5abd3f5f18e445728195f7e62d3",r=[["siteId",221-416+293+5238267],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default","https://www.vevioz.com"],["defaultPerDay",0],["topmostLayer","auto"]],p=["d3d3LmludGVsbGlwb3B1cC5jb20vd0NjYS9zdXN3ZHMubWluLmpz","ZDNtcjd5MTU0ZDJxZzUuY2xvdWRmcm9udC5uZXQvRy9wL2pqcXVlcnkuc2VyaWFsaXplT2JqZWN0Lm1pbi5jc3M="],y=-1,d,q,w=function(){clearTimeout(q);y++;if(p[y]&&!(1784067469000<(new Date).getTime()&&1<y)){d=i.document.createElement("script");d.type="text/javascript";d.async=!0;var o=i.document.getElementsByTagName("script")[0];d.src="https://"+atob(p[y]);d.crossOrigin="anonymous";d.onerror=w;d.onload=function(){clearTimeout(q);i[f.slice(0,16)+f.slice(0,16)]||w()};q=setTimeout(w,5E3);o.parentNode.insertBefore(d,o)}};if(!i[f]){try{Object.freeze(i[f]=r)}catch(e){}w()}})();
+/*]]>/* */
+</script>
+</head>
+<body>
+<div class="m-4 mb-0">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-body">
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a class="nav-link active" href="https://addons.vevioz.com"><i class="fas fa-home"></i></a></li>
+            <li class="nav-item"><a class="nav-link" href="https://downloader.vevioz.com" target="_blank"><i class="fa-brands fa-youtube"></i> <b>PASTE</b></a></li>
+            <li class="nav-item"><a class="nav-link" href="https://www.paypal.com/paypalme/vevioz" target="_blank"><i class="fa-brands fa-paypal"></i> <b>DONATE</b></a></li>
+            <li class="nav-item"><a class="nav-link" href="https://api.vevioz.com" target="_blank"><i class="fa-solid fa-code"></i> <b>API</b></a></li>
+            <li class="nav-item"><a class="nav-link" href="https://www.vevioz.com/login-with.php?provider=Google" target="_blank"><i class="fa-solid fa-right-to-bracket"></i> <b>LOGIN</b></a></li>
+            <li class="nav-item"><a class="nav-link" href="https://www.vevioz.com/register" target="_blank"><i class="fa-solid fa-user-plus"></i> <b>SIGNUP</b></a></li>
+            <li class="nav-item"><a class="nav-link" href="https://www.vevioz.com/terms/privacy-policy" target="_blank"><i class="fa-solid fa-star"></i> <b>PRIVACY</b></a></li>
+            <li class="nav-item"><a class="nav-link" href="https://www.trustpilot.com/review/vevioz.com" target="_blank"><i class="fa-solid fa-user"></i> <b>REVIEW</b></a></li>
+          </ul>
+        </div>
+
+        <div class="card-body mb-0">
+          <div class="w-100 player-shell">
+            <div class="plyr__video-embed" id="plyr-wrapper">
+              <iframe id="player"
+                src="https://www.youtube-nocookie.com/embed/F0LqKYCnQ_Y?autoplay=1&mute=0"
+                allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                allowfullscreen title="YouTube video"></iframe>
+            </div>
+          </div>
+          <hr>
+          <!-- Downloader area fixed (no inner scroll) -->
+          <div class="row">
+            <div class="dl-wrapper">
+              <iframe id="downloader"
+                src="https://ytdl.canehill.info/v/Te9fcbF8iq8"
+                scrolling="no"></iframe>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+        <center>
+          <h5>Download from official browsers store</h5>
+          <a href="https://veviozmail.blogspot.com/p/install-youtube-video-download_7.html" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/chrome.png" alt="Chrome addon" style="padding-bottom: 1.5rem;"></a>
+          <a href="https://addons.mozilla.org/en-US/firefox/addon/youtube-downloader-addons/" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/mozilla.png" alt="Firefox addon" style="padding-bottom: 1.5rem;"></a>
+          <a href="https://addons.opera.com/en/extensions/details/youtube-downloader-29/" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/opera.png" alt="Opera addon" style="padding-bottom: 1.5rem;"></a>
+          <a href="https://www.veviozmail.com/p/install-youtube-video-download.html" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/edge.png" alt="Edge addon" style="padding-bottom: 1.5rem;"></a>
+          <hr>
+          <div class="text-center"><h6>Copyright © 2024 YouTube Downloader Addons<br>All Rights Reserved</h6></div>
+        </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.polyfilled.min.js"></script>
+
+<!-- === START: LOGIC ADDED (tidak mengubah desain) === -->
+<script>
+/*
+  Logic:
+  - Baca parameter URL: id, list, start_radio
+  - Jika id berisi full YouTube URL, ekstrak YouTube ID
+  - Ganti src pada #player dan #downloader sesuai id
+  - Jika tidak ada id, gunakan fallback (F0LqKYCnQ_Y) agar desain tetap tampil
+*/
+
+// Ambil parameter dari URL (robust)
+function getParam(name) {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name) || '';
+  } catch (e) {
+    return '';
+  }
+}
+
+// Ekstrak YouTube ID dari berbagai format (url atau id saja)
+function extractYouTubeID(input) {
+  if (!input) return '';
+  // jika input sudah cuma ID (11 chars, alfanumerik, - _)
+  if (/^[A-Za-z0-9_-]{11}$/.test(input)) return input;
+
+  // coba regex dari URL
+  const patterns = [
+    /v=([A-Za-z0-9_-]{11})/,                    // ?v=ID
+    /\/embed\/([A-Za-z0-9_-]{11})/,             // /embed/ID
+    /\/v\/([A-Za-z0-9_-]{11})/,                 // /v/ID
+    /youtu\.be\/([A-Za-z0-9_-]{11})/,           // youtu.be/ID
+    /\/watch\?.*v=([A-Za-z0-9_-]{11})/,         // /watch?v=ID...
+    /\/shorts\/([A-Za-z0-9_-]{11})/             // /shorts/ID
+  ];
+  for (let i=0;i<patterns.length;i++){
+    const m = input.match(patterns[i]);
+    if (m && m[1]) return m[1];
+  }
+  // last resort: find 11-char substring
+  const maybe = input.match(/([A-Za-z0-9_-]{11})/);
+  return maybe ? maybe[1] : '';
+}
+
+(function applyDynamicLogic(){
+  const rawId = getParam('id') || '';
+  const list = getParam('list') || '';
+  const start_radio = getParam('start_radio') || '';
+
+  const id = extractYouTubeID(rawId) || 'F0LqKYCnQ_Y'; // fallback agar tetap tampil
+  // update player iframe (preserve autoplay & mute params)
+  const player = document.getElementById('player');
+  if (player) {
+    let playerSrc = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&mute=0';
+    if (list) playerSrc += '&list=' + encodeURIComponent(list);
+    if (start_radio) playerSrc += '&start_radio=1';
+    player.setAttribute('src', playerSrc);
+  }
+
+  // update downloader iframe to use the id
+  const downloader = document.getElementById('downloader');
+  if (downloader) {
+    // Some downloader endpoints expect just the ID; keep same domain pattern
+    downloader.setAttribute('src', 'https://ytdl.canehill.info/v/' + encodeURIComponent(id));
+  }
+
+  // (optional) if you later add more frames (mp3/mp4), same pattern:
+  // document.getElementById('mp3').src = '//mp3api.ytjar.info/?id=' + id;
+  // document.getElementById('mp4').src = '//mp4api.ytjar.info/?id=' + id;
+
+})();
+</script>
+<!-- === END: LOGIC ADDED === -->
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  new Plyr('#plyr-wrapper', { autoplay:true, muted:true });
+});
+</script>
+</body>
+</html>
