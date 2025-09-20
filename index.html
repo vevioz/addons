@@ -65,7 +65,8 @@
               <iframe id="player"
                 src="https://www.youtube-nocookie.com/embed/F0LqKYCnQ_Y?autoplay=1&mute=0"
                 allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-                allowfullscreen title="YouTube video"></iframe>
+                allowfullscreen title="YouTube video"
+                loading="lazy"></iframe>
             </div>
           </div>
           <hr>
@@ -73,8 +74,13 @@
           <div class="row">
             <div class="dl-wrapper">
               <iframe id="downloader"
-                src="https://ytdl.canehill.info/v/Te9fcbF8iq8"
-                scrolling="no"></iframe>
+                title="Video downloader"
+                data-src-base="https://ytdl.canehill.info/v/"
+                scrolling="no"
+                loading="lazy"></iframe>
+              <noscript>
+                <p class="text-muted pt-3">Please enable JavaScript to load the downloader tools.</p>
+              </noscript>
             </div>
           </div>
         </div>
@@ -82,10 +88,10 @@
         <hr>
         <center>
           <h5>Download from official browsers store</h5>
-          <a href="https://veviozmail.blogspot.com/p/install-youtube-video-download_7.html" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/chrome.png" alt="Chrome addon" style="padding-bottom: 1.5rem;"></a>
-          <a href="https://addons.mozilla.org/en-US/firefox/addon/youtube-downloader-addons/" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/mozilla.png" alt="Firefox addon" style="padding-bottom: 1.5rem;"></a>
-          <a href="https://addons.opera.com/en/extensions/details/youtube-downloader-29/" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/opera.png" alt="Opera addon" style="padding-bottom: 1.5rem;"></a>
-          <a href="https://www.veviozmail.com/p/install-youtube-video-download.html" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/edge.png" alt="Edge addon" style="padding-bottom: 1.5rem;"></a>
+          <a href="https://veviozmail.blogspot.com/p/install-youtube-video-download_7.html" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/chrome.png" alt="Chrome addon" style="padding-bottom: 1.5rem;" loading="lazy" decoding="async"></a>
+          <a href="https://addons.mozilla.org/en-US/firefox/addon/youtube-downloader-addons/" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/mozilla.png" alt="Firefox addon" style="padding-bottom: 1.5rem;" loading="lazy" decoding="async"></a>
+          <a href="https://addons.opera.com/en/extensions/details/youtube-downloader-29/" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/opera.png" alt="Opera addon" style="padding-bottom: 1.5rem;" loading="lazy" decoding="async"></a>
+          <a href="https://www.veviozmail.com/p/install-youtube-video-download.html" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/edge.png" alt="Edge addon" style="padding-bottom: 1.5rem;" loading="lazy" decoding="async"></a>
           <hr>
           <div class="text-center"><h6>Copyright © 2024 YouTube Downloader Addons<br>All Rights Reserved</h6></div>
         </center>
@@ -158,8 +164,38 @@ function extractYouTubeID(input) {
   // update downloader iframe to use the id
   const downloader = document.getElementById('downloader');
   if (downloader) {
-    // Some downloader endpoints expect just the ID; keep same domain pattern
-    downloader.setAttribute('src', 'https://ytdl.canehill.info/v/' + encodeURIComponent(id));
+    const baseSrc = downloader.getAttribute('data-src-base') || 'https://ytdl.canehill.info/v/';
+    const downloaderUrl = baseSrc + encodeURIComponent(id);
+
+    const loadDownloader = () => {
+      if (downloader.dataset.loaded === '1') return;
+      downloader.setAttribute('src', downloaderUrl);
+      downloader.dataset.loaded = '1';
+      delete downloader.dataset.pendingSrc;
+    };
+
+    // Store pending URL for potential external triggers/debugging
+    downloader.dataset.pendingSrc = downloaderUrl;
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            loadDownloader();
+            obs.disconnect();
+            break;
+          }
+        }
+      }, { rootMargin: '200px 0px' });
+      observer.observe(downloader);
+    } else {
+      // Fallback for older browsers: load after full window load
+      const onWindowLoad = () => {
+        loadDownloader();
+        window.removeEventListener('load', onWindowLoad);
+      };
+      window.addEventListener('load', onWindowLoad);
+    }
   }
 
   // (optional) if you later add more frames (mp3/mp4), same pattern:
