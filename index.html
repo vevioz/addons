@@ -23,8 +23,7 @@
 <title>YouTube Downloader Addons</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.css" />
 <style>
   body { background-color: #000; }
   .player-shell { max-width: 100%; width: 100%; margin: 0 auto; }
@@ -60,8 +59,8 @@
 
         <div class="card-body mb-0">
           <div class="w-100 player-shell">
-            <div class="plyr__video-embed" id="player">
-              <iframe id="player-iframe"
+            <div class="plyr__video-embed" id="plyr-wrapper">
+              <iframe id="player"
                 src="https://www.youtube-nocookie.com/embed/F0LqKYCnQ_Y?autoplay=1&mute=0"
                 allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
                 allowfullscreen title="YouTube video"
@@ -99,13 +98,15 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.polyfilled.min.js"></script>
+
 <!-- === START: LOGIC ADDED (tidak mengubah desain) === -->
 <script>
 /*
   Logic:
   - Baca parameter URL: id, list, start_radio
   - Jika id berisi full YouTube URL, ekstrak YouTube ID
-  - Ganti src pada iframe player dan #downloader sesuai id
+  - Ganti src pada #player dan #downloader sesuai id
   - Jika tidak ada id, gunakan fallback (F0LqKYCnQ_Y) agar desain tetap tampil
 */
 
@@ -150,12 +151,12 @@ function extractYouTubeID(input) {
 
   const id = extractYouTubeID(rawId) || 'F0LqKYCnQ_Y'; // fallback agar tetap tampil
   // update player iframe (preserve autoplay & mute params)
-  const playerFrame = document.getElementById('player-iframe');
-  if (playerFrame) {
+  const player = document.getElementById('player');
+  if (player) {
     let playerSrc = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&mute=0';
     if (list) playerSrc += '&list=' + encodeURIComponent(list);
     if (start_radio) playerSrc += '&start_radio=1';
-    playerFrame.setAttribute('src', playerSrc);
+    player.setAttribute('src', playerSrc);
   }
 
   // update downloader iframe to use the id
@@ -205,9 +206,8 @@ function extractYouTubeID(input) {
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  new Plyr('#player', { autoplay: true, muted: true });
+  new Plyr('#plyr-wrapper', { autoplay:true, muted:true });
 });
 </script>
-
 </body>
 </html>
