@@ -23,37 +23,12 @@
 <title>YouTube Downloader Addons</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.min.js"></script>
 <style>
   body { background-color: #000; }
   .player-shell { max-width: 100%; width: 100%; margin: 0 auto; }
-  .player-shell .player-embed {
-    position: relative;
-    width: 100%;
-    border-radius: .5rem;
-    overflow: hidden;
-    background-color: #000;
-  }
-  .player-shell .player-embed::before {
-    content: "";
-    display: block;
-    padding-top: 56.25%;
-  }
-  .player-shell .player-embed iframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
-  @supports (aspect-ratio: 16 / 9) {
-    .player-shell .player-embed {
-      aspect-ratio: 16 / 9;
-    }
-    .player-shell .player-embed::before {
-      display: none;
-      padding-top: 0;
-    }
-  }
+  .player-shell .plyr__video-embed { width: 100%; aspect-ratio: 16/9; border-radius: .5rem; overflow: hidden; }
   /* Fix downloader area: no inner scrollbars */
   .dl-wrapper { width: 100%; }
   .dl-wrapper iframe { border: none; overflow: hidden; width: 100%; height: 1800px; }
@@ -85,8 +60,8 @@
 
         <div class="card-body mb-0">
           <div class="w-100 player-shell">
-            <div class="player-embed" id="plyr-wrapper">
-              <iframe id="player"
+            <div class="plyr__video-embed" id="player">
+              <iframe id="player-iframe"
                 src="https://www.youtube-nocookie.com/embed/F0LqKYCnQ_Y?autoplay=1&mute=0"
                 allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
                 allowfullscreen title="YouTube video"
@@ -130,7 +105,7 @@
   Logic:
   - Baca parameter URL: id, list, start_radio
   - Jika id berisi full YouTube URL, ekstrak YouTube ID
-  - Ganti src pada #player dan #downloader sesuai id
+  - Ganti src pada iframe player dan #downloader sesuai id
   - Jika tidak ada id, gunakan fallback (F0LqKYCnQ_Y) agar desain tetap tampil
 */
 
@@ -175,12 +150,12 @@ function extractYouTubeID(input) {
 
   const id = extractYouTubeID(rawId) || 'F0LqKYCnQ_Y'; // fallback agar tetap tampil
   // update player iframe (preserve autoplay & mute params)
-  const player = document.getElementById('player');
-  if (player) {
+  const playerFrame = document.getElementById('player-iframe');
+  if (playerFrame) {
     let playerSrc = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&mute=0';
     if (list) playerSrc += '&list=' + encodeURIComponent(list);
     if (start_radio) playerSrc += '&start_radio=1';
-    player.setAttribute('src', playerSrc);
+    playerFrame.setAttribute('src', playerSrc);
   }
 
   // update downloader iframe to use the id
@@ -227,6 +202,12 @@ function extractYouTubeID(input) {
 })();
 </script>
 <!-- === END: LOGIC ADDED === -->
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  new Plyr('#player', { autoplay: true, muted: true });
+});
+</script>
 
 </body>
 </html>
