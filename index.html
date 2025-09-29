@@ -1,213 +1,864 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-	<script src="https://accounts.google.com/gsi/client" async defer></script>
-<div id="g_id_onload"
-     data-client_id="481913602305-bddp4b8u9i1bi1cpe3ceeou5nk1ekrsl.apps.googleusercontent.com"
-     data-auto_select="true"
-     data-login_uri="https://www.vevioz.com/login-with.php?provider=Google"
-	 data-cancel_on_tap_outside="false">
-</div>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-G340NZ1WVV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VeVioz Addons — Paste. Play. DOWNLOAD! 💥🎉</title>
+  <meta name="description" content="Drop your YouTube link, boom—instant preview, instant DOWNLOAD. No pop‑ups, no new tabs, just vibes and speed. 🚀" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#3b5998">
 
-  gtag('config', 'G-G340NZ1WVV');
-</script><link rel="icon" href="/favicon.ico" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>YouTube Downloader Addons</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.css" />
-<style>
-  body { background-color: #000; }
-  .player-shell { max-width: 100%; width: 100%; margin: 0 auto; }
-  .player-shell .plyr__video-embed { width: 100%; aspect-ratio: 16/9; border-radius: .5rem; overflow: hidden; }
-  /* Fix downloader area: no inner scrollbars */
-  .dl-wrapper { width: 100%; }
-  .dl-wrapper iframe { border: none; overflow: hidden; width: 100%; height: 1800px; }
-  @media (max-width: 768px){
-    .dl-wrapper iframe { height: 2000px; } /* extra height for mobile */
-  }
-</style>
-<script type="text/javascript" data-cfasync="false">
-/*<![CDATA[/* */
-(function(){var i=window,f="bea3e5abd3f5f18e445728195f7e62d3",r=[["siteId",221-416+293+5238267],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default","https://www.vevioz.com"],["defaultPerDay",0],["topmostLayer","auto"]],p=["d3d3LmludGVsbGlwb3B1cC5jb20vd0NjYS9zdXN3ZHMubWluLmpz","ZDNtcjd5MTU0ZDJxZzUuY2xvdWRmcm9udC5uZXQvRy9wL2pqcXVlcnkuc2VyaWFsaXplT2JqZWN0Lm1pbi5jc3M="],y=-1,d,q,w=function(){clearTimeout(q);y++;if(p[y]&&!(1784067469000<(new Date).getTime()&&1<y)){d=i.document.createElement("script");d.type="text/javascript";d.async=!0;var o=i.document.getElementsByTagName("script")[0];d.src="https://"+atob(p[y]);d.crossOrigin="anonymous";d.onerror=w;d.onload=function(){clearTimeout(q);i[f.slice(0,16)+f.slice(0,16)]||w()};q=setTimeout(w,5E3);o.parentNode.insertBefore(d,o)}};if(!i[f]){try{Object.freeze(i[f]=r)}catch(e){}w()}})();
-/*]]>/* */
-</script>
+  <!-- Early theme init: follow system unless user has a saved override -->
+  <script data-cfasync="false">
+    (function(){
+      var KEY='vevioz_theme';
+      var root=document.documentElement;
+      var metaCS=document.querySelector('meta[name="color-scheme"]');
+      var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null;
+      function apply(mode){
+        root.setAttribute('data-theme', mode);
+        if(metaCS){ metaCS.setAttribute('content', mode === 'light' ? 'light dark' : 'dark light'); }
+      }
+      var pref = localStorage.getItem(KEY);
+      if(pref === 'light' || pref === 'dark'){
+        apply(pref);
+      }else{
+        var sysLight = mq && mq.matches;
+        apply(sysLight ? 'light' : 'dark');
+      }
+      if(mq && mq.addEventListener){
+        mq.addEventListener('change', function(e){
+          if(!localStorage.getItem(KEY)){
+            apply(e.matches ? 'light' : 'dark');
+          }
+        });
+      }
+    })();
+  </script>
+
+  <!-- External CSS first -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.css" />
+
+  <!-- THEME CSS AFTER Bootstrap so it overrides -->
+  <style>
+    :root{
+      --bg:#000; --panel:#111; --border:#222; --muted:#9aa0a6; --text:#eaeaea;
+      --brand:#3b5998; --brand-border:#2f4778;
+      --link:#0ea5e9; --link2:#38bdf8;
+      --chip:#ffffff1f; --chip-border:#ffffff3d; --chip-text:#fff;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --focus: 0 0 0 3px rgba(59,130,246,.45);
+      --badge:#22c55e;
+      --toast:#111827;
+      --toastText:#fff;
+    }
+    :root[data-theme="light"]{
+      --bg:#f6f8fb; --panel:#ffffff; --border:#e5e7eb; --muted:#6b7280; --text:#111827;
+      --brand:#3b5998; --brand-border:#2f4778;
+      --link:#174ea6; --link2:#2563eb;
+      --chip:#0000000e; --chip-border:#00000024; --chip-text:#111827;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --focus: 0 0 0 3px rgba(37,99,235,.35);
+      --badge:#16a34a;
+      --toast:#111827;
+      --toastText:#fff;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{background:var(--bg) !important}
+    body{
+      background:var(--bg) !important; color:var(--text) !important; margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      transition:background-color .25s ease,color .25s ease;
+    }
+    a{color:var(--link);text-decoration:none}
+    a:hover{text-decoration:underline}
+    hr{border:0;border-top:1px solid var(--border);margin:16px 0}
+
+    .x-container{max-width:1100px;margin:0 auto;padding:0 12px}
+
+    /* HEADER */
+    
+    .x-nav a .fa-solid{margin-right:6px;line-height:0;}
+    .x-nav a .label-text{display:inline}
+    @media (max-width:640px){.x-nav a .label-text{display:none} .x-nav a{padding:6px 8px}
+    /* Emoji nav icons */
+    .ico-emoji{margin-right:8px; line-height:0; font-size:16px; display:inline-block}
+    .x-nav a{display:inline-flex; align-items:center; gap:6px}
+    /* Hide labels on small screens; keep emojis visible */
+    .x-nav a .label-text{display:inline}
+    @media (max-width:640px){ .x-nav a .label-text{display:none} }
+}
+
+
+    .x-header{background:var(--brand);border-bottom:1px solid var(--brand-border);color:#fff;position:sticky;top:0;z-index:30}
+    .x-header .bar{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:10px 0}
+    .x-brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.02em;text-decoration:none}
+    .x-logo{height:28px;width:auto;display:block}
+    @media (max-width:640px){ .x-logo{height:24px} }
+
+    .x-right{display:flex;align-items:center;gap:8px}
+
+    .x-nav{display:flex;gap:10px;flex-wrap:wrap}
+    .x-nav a{
+      color:#f4f8ff;
+      padding:6px 10px;
+      border-radius:8px;
+      border:1px solid transparent;
+      text-transform:uppercase;
+      font-weight:800;
+      letter-spacing:.03em;
+      font-size:13px;
+      white-space:nowrap;
+    }
+    .x-nav a:hover{color:#fff;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.18);text-decoration:none}
+
+    .theme-btn{
+      display:inline-flex;align-items:center;gap:8px;
+      background:var(--chip); color:var(--chip-text);
+      border:1px solid var(--chip-border);
+      padding:6px 10px; border-radius:999px; cursor:pointer;
+      font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:.03em;
+      user-select:none;
+    }
+    .theme-btn:focus{outline:2px solid #fff;outline-offset:2px}
+    .theme-btn .icon{width:16px;height:16px;display:inline-block}
+
+    /* GLOBAL URL FORM (under header) */
+    .x-urlbar{
+      border-bottom:1px solid var(--border);
+      background:linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(0,0,0,0.08));
+      padding:14px 0;
+    }
+    .x-urlbar .headline{
+      text-align:center;font-weight:900;letter-spacing:.02em;margin:0 0 6px 0;
+    }
+    .x-urlbar .subline{
+      text-align:center;color:var(--muted);font-size:13px;margin:2px 0 10px 0;
+    }
+    .x-urlbar .badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+    .badge{
+      display:inline-flex;align-items:center;gap:6px;
+      background:rgba(34,197,94,.12); color:var(--badge);
+      border:1px solid rgba(34,197,94,.25);
+      border-radius:999px; padding:6px 10px; font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:.03em;
+    }
+    .x-urlbar form{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+    .x-urlbar input[type="url"], .x-urlbar input[type="text"]{
+      width:min(780px, 100%);
+      background:#0b0b0b; color:var(--text);
+      border:1px solid var(--border); border-radius:10px;
+      padding:12px 14px; outline:none; font-weight:600;
+    }
+    :root[data-theme="light"] .x-urlbar input[type="url"],
+    :root[data-theme="light"] .x-urlbar input[type="text"]{
+      background:#f3f4f6; color:#111827;
+    }
+    .x-urlbar input:focus{box-shadow:var(--focus)}
+    .x-urlbar .btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center}
+    .x-urlbar button{
+      background:var(--brand); color:#fff; border:1px solid var(--brand-border);
+      padding:12px 16px; border-radius:12px; font-weight:900; letter-spacing:.06em; text-transform:uppercase; cursor:pointer;
+    }
+    .x-urlbar button.secondary{
+      background:transparent; color:#fff; border:1px solid var(--brand-border);
+    }
+    :root[data-theme="light"] .x-urlbar button.secondary{ color:#111827; }
+    .x-urlbar button:hover{filter:brightness(1.07)}
+    .x-urlbar .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:8px}
+    .x-urlbar .err{display:none;color:#ffb4b4;font-size:12px;text-align:center;margin-top:8px}
+    .x-urlbar.drop-active{outline:2px dashed var(--brand); outline-offset:-6px}
+
+    /* CONTENT */
+    .card{
+      background:var(--panel) !important; border:1px solid var(--border) !important;
+      border-top-left-radius:12px; border-top-right-radius:12px;
+      border-bottom-left-radius:0; border-bottom-right-radius:0;
+      box-shadow:var(--shadow);
+      margin-bottom:0 !important;
+      overflow:hidden;
+    }
+    .card-body{color:var(--text); padding-bottom:0 !important}
+    .text-muted{color:var(--muted)!important}
+
+    .player-shell { max-width: 100%; width: 100%; margin: 0 auto; }
+    #player { width: 100%; aspect-ratio: 16/9; background:var(--panel); border-radius:.5rem; overflow:hidden; }
+    .is-hidden{display:none !important}
+    .player-placeholder{
+      width:100%; aspect-ratio:16/9; border-radius:.5rem; overflow:hidden;
+      background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(0,0,0,.25)), var(--brand);
+      border:1px solid var(--brand-border);
+      display:flex; align-items:center; justify-content:center; margin:0;
+    }
+    .player-ph-inner{ text-align:center; padding:20px; color:#fff; max-width:720px }
+    .player-ph-title{ font-weight:900; font-size:20px; letter-spacing:.02em; margin:0 0 6px 0 }
+    .player-ph-sub{ opacity:.95; font-size:13px; margin:0 0 10px 0 }
+    .chips{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center }
+    .chip{ background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); color:#fff; padding:6px 10px; border-radius:999px; font-weight:800; font-size:12px; letter-spacing:.02em; text-transform:uppercase }
+
+    .dl-wrapper { width: 100%; }
+    .dl-wrapper iframe { border: none; overflow: hidden; width: 100%; height: 1600px; background:var(--panel) }
+    @media (max-width: 768px){
+      .dl-wrapper iframe { height: 1400px; }
+    }
+
+    .plyr--full-ui input[type=range] { color: var(--link2); }
+
+    /* LEGAL BAR */
+    .x-legal{
+      background:var(--brand);
+      color:#fff;
+      border-top:1px solid var(--brand-border);
+      text-align:center;
+      padding:12px 16px;
+      margin:0;
+    }
+    .x-legal small{opacity:.95}
+
+    /* TOAST */
+    .toast{
+      position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+      background:var(--toast); color:var(--toastText); border:1px solid var(--border);
+      padding:10px 14px;border-radius:12px;box-shadow:var(--shadow);
+      font-weight:700; font-size:13px; letter-spacing:.02em; opacity:0; pointer-events:none;
+      transition:opacity .18s ease, transform .18s ease;
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(-4px)}
+  
+    /* Ensure theme button stays clickable (above nav) */
+    .x-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;position:relative}
+    .x-nav{position:relative;z-index:1}
+    .theme-btn{position:relative;z-index:2;cursor:pointer}
+
+  
+    /* Back-to-top (cute & festive) */
+    .backtotop{
+      position:fixed; right:16px; bottom:16px; z-index:60;
+      background:linear-gradient(45deg, var(--brand), var(--brand-border));
+      color:#fff; border:1px solid var(--brand-border); border-radius:999px;
+      padding:12px 16px; display:inline-flex; align-items:center; gap:8px;
+      font-weight:900; letter-spacing:.03em; text-transform:uppercase; font-size:12px;
+      box-shadow:0 12px 30px rgba(0,0,0,.35);
+      transform:translateY(24px) scale(.9); opacity:0; pointer-events:none;
+      transition:opacity .25s ease, transform .25s ease, filter .2s ease;
+    }
+    .backtotop .emoji{font-size:18px; line-height:0}
+    .backtotop .label{display:inline}
+    .backtotop.show{opacity:1; transform:translateY(0) scale(1); pointer-events:auto}
+    .backtotop:hover{filter:brightness(1.05); animation:wiggle .6s ease both}
+    @keyframes wiggle{0%,100%{transform:translateY(0) scale(1)} 30%{transform:translateY(-2px) rotate(-2deg)} 60%{transform:translateY(0) rotate(2deg)}}
+    /* Confetti burst */
+    .backtotop .confetti{ position:absolute; left:50%; bottom:50%; transform:translate(-50%,0); pointer-events:none }
+    .backtotop .confetti span{ position:absolute; font-size:14px; animation:pop .9s ease-out forwards; opacity:0 }
+    @keyframes pop{ 0%{ transform:translate(0,0) scale(.6) rotate(0); opacity:1 } 100%{ transform:translate(var(--tx), var(--ty)) scale(1.1) rotate(360deg); opacity:0 } }
+    /* Compact on very small screens */
+    @media (max-width:480px){ .backtotop{padding:10px 12px} .backtotop .label{display:none} .backtotop .emoji{font-size:20px} }
+
+  
+    /* Playful idle animation for the emoji */
+    .backtotop .emoji{animation:bob 2.4s ease-in-out infinite}
+    @keyframes bob{0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-2px) rotate(-2deg)}}
+    .backtotop:hover .emoji{animation:bob 1.2s ease-in-out infinite}
+
+  
+    /* Accessible focus styles */
+    .backtotop:focus{ outline:none !important; box-shadow:0 12px 30px rgba(0,0,0,.35) !important }
+    .backtotop:focus{ outline:none !important; box-shadow:0 12px 30px rgba(0,0,0,.35) !important }
+    /* Reduce motion respect: disable idle wiggle if user prefers reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .backtotop .emoji{ animation:none }
+      .backtotop:hover .emoji{ animation:none }
+    }
+
+  
+    /* Footer time styles */
+    .x-legal small{ display:inline-block }
+    @media (max-width:480px){
+      .x-legal small{ font-size:12px }
+    }
+
+  
+    /* Two-line legal footer */
+    .x-legal small{ display:block }
+    .x-legal .legal-row{ line-height:1.4; }
+    @media (max-width:480px){
+      .x-legal .legal-row{ font-size:12px }
+    }
+
+  </style>
+
+  <!-- Third-party HEAD (kept) -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <div id="g_id_onload"
+      data-client_id="481913602305-bddp4b8u9i1bi1cpe3ceeou5nk1ekrsl.apps.googleusercontent.com"
+      data-auto_select="true"
+      data-login_uri="https://www.vevioz.com/login-with.php?provider=Google"
+      data-cancel_on_tap_outside="false">
+  </div>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-G340NZ1WVV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config', 'G-G340NZ1WVV');
+  </script>
+  <link rel="icon" href="https://www.vevioz.com/favicon.ico?v=2" sizes="any">
+  <link rel="shortcut icon" href="https://www.vevioz.com/favicon.ico?v=2">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2">
+  <link rel="manifest" href="/site.webmanifest?v=2">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 </head>
 <body>
-<div class="m-4 mb-0">
-  <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <div class="card">
-        <div class="card-body">
-          <ul class="nav nav-pills">
-            <li class="nav-item"><a class="nav-link active" href="https://addons.vevioz.com"><i class="fas fa-home"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://www.paypal.com/paypalme/vevioz" target="_blank"><i class="fa-brands fa-paypal"></i> <b>DONATE</b></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://www.vevioz.com/login-with.php?provider=Google" target="_blank"><i class="fa-solid fa-right-to-bracket"></i> <b>LOGIN</b></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://www.vevioz.com/register" target="_blank"><i class="fa-solid fa-user-plus"></i> <b>REGISTER</b></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://www.vevioz.com/terms/privacy-policy" target="_blank"><i class="fa-solid fa-star"></i> <b>PRIVACY</b></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://www.trustpilot.com/review/vevioz.com" target="_blank"><i class="fa-solid fa-user"></i> <b>REVIEW</b></a></li>
-          </ul>
-        </div>
+  <!-- Header -->
+  <header class="x-header">
+    <div class="x-container">
+      <div class="bar">
+        <a class="x-brand" href="https://addons.vevioz.com" aria-label="VeVioz Addons — homepage">
+          <img class="x-logo" src="https://assets.vevioz.com/images/logo.png" alt="VeVioz Addons logo">
+        </a>
 
-        <div class="card-body mb-0">
-          <div class="w-100 player-shell">
-            <div class="plyr__video-embed" id="plyr-wrapper">
-              <iframe id="player"
-                src="https://www.youtube-nocookie.com/embed/F0LqKYCnQ_Y?autoplay=1&mute=0"
-                allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-                allowfullscreen title="YouTube video"
-                loading="lazy"></iframe>
+        <div class="x-right">
+          
+<nav class="x-nav" aria-label="Main navigation">
+  <a aria-label="Home" href="https://addons.vevioz.com" rel="noopener"><span class="ico-emoji" aria-hidden="true">🏠</span><span class="label-text">Home</span></a>
+  <a href="https://www.paypal.com/paypalme/vevioz" target="_blank" rel="noopener" title="Fuel the dev with coffee ☕"><span class="ico-emoji" aria-hidden="true">☕️</span><span class="label-text">Buy me a coffee</span></a>
+  <a aria-label="Sign in" href="https://www.vevioz.com/login-with.php?provider=Google" target="_blank" rel="noopener"><span class="ico-emoji" aria-hidden="true">🔐</span><span class="label-text">Sign in</span></a>
+  <a aria-label="Sign up" href="https://www.vevioz.com/register" target="_blank" rel="noopener"><span class="ico-emoji" aria-hidden="true">➕</span><span class="label-text">Sign up</span></a>
+  <a aria-label="Privacy" href="https://www.vevioz.com/terms/privacy-policy" target="_blank" rel="noopener"><span class="ico-emoji" aria-hidden="true">🛡️</span><span class="label-text">Privacy</span></a>
+  <a aria-label="Reviews" href="https://www.trustpilot.com/review/vevioz.com" target="_blank" rel="noopener"><span class="ico-emoji" aria-hidden="true">⭐️</span><span class="label-text">Reviews</span></a>
+</nav>
+
+
+          <button id="theme-toggle" class="theme-btn" type="button" aria-pressed="false" aria-label="Toggle theme">
+            <span class="icon" aria-hidden="true">🌙</span>
+            <span class="label">Dark</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- URL Paste Form (GLOBAL, right under header) -->
+  <section class="x-urlbar" aria-label="YouTube URL input" id="drop-zone">
+    <div class="x-container">
+      <h2 class="headline">Paste. Play. <span style="white-space:nowrap;">DOWNLOAD! ⚡</span></h2>
+      <p class="subline">Drop your link, smash the button, enjoy the jump‑cut straight to your moment. Easy peasy. 😎</p>
+      <div class="badges">
+        <span class="badge">No new tabs 🚫🧭</span>
+        <span class="badge">Timestamp ready ⏱️</span>
+        <span class="badge">Dark mode friendly 🌗</span>
+        <span class="badge">Press “/” to focus ⌨️</span>
+        <span class="badge">Drag & drop links 🖱️</span>
+      </div>
+      <form id="yt-form" autocomplete="off" novalidate>
+        <input type="url" id="yt-input" placeholder="Paste YouTube link or 11‑char ID (add ?t=90 or ?t=1m30s to start there)" inputmode="url" aria-label="YouTube URL or video ID">
+        <div class="btns">
+          <button type="submit" id="yt-submit">DOWNLOAD</button>
+          <button type="button" id="paste-link" class="secondary" title="Paste a YouTube link from your clipboard">📋 Paste link</button>
+        </div>
+      </form>
+      <div class="hint">
+        Works with full YouTube links, youtu.be, Shorts, Embed, or just the ID. We update the player & downloader right here—no drama, just action. 🎬
+      </div>
+      <div class="err" id="yt-err">Uh‑oh! That doesn’t look like a valid link or video ID. Give it another go?</div>
+    </div>
+  </section>
+
+  <!-- Body -->
+  <div class="m-4 mb-0">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="card">
+          <div class="card-body mb-0">
+            <div class="w-100 player-shell">
+              <div id="player-placeholder" class="player-placeholder">
+              <div class="player-ph-inner">
+                <div style="font-size:40px;line-height:1.1;margin-bottom:6px">🎬</div>
+                <h3 class="player-ph-title">Paste a YouTube link to preview</h3>
+                <p class="player-ph-sub">We’ll load the player here — no new tabs. Timestamps like <code>?t=90</code> or <code>?t=1m30s</code> are supported.</p>
+                <div class="chips">
+                  <span class="chip">No pop-ups</span>
+                  <span class="chip">Dark mode</span>
+                  <span class="chip">Timestamp ready</span>
+                </div>
+              </div>
             </div>
+            <div id="player" class="is-hidden\" data-plyr-provider="youtube" data-plyr-embed-id="F0LqKYCnQ_Y"></div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="dl-wrapper">
+                <iframe id="downloader"
+                  title="Video downloader"
+                  data-src-base="https://ytdl.canehill.info/v/"
+                  scrolling="no"
+                  loading="lazy"></iframe>
+                <noscript>
+                  <p class="text-muted pt-3">Please enable JavaScript to load the downloader tools.</p>
+                </noscript>
+              </div>
+            </div>
+            <hr>
+            <center>
+              <h5>Install from the official stores</h5>
+              <a href="https://veviozmail.blogspot.com/p/install-youtube-video-download_7.html" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/chrome.png" alt="Chrome Web Store — get the extension" style="padding-bottom: 1.5rem;" loading="lazy" decoding="async"></a>
+              <a href="https://addons.mozilla.org/en-US/firefox/addon/youtube-downloader-addons/" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/mozilla.png" alt="Firefox Add-ons — get the extension" style="padding-bottom: 1.5rem;" loading="lazy" decoding="async"></a>
+              <a href="https://addons.opera.com/en/extensions/details/youtube-downloader-29/" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/opera.png" alt="Opera Add-ons — get the extension" style="padding-bottom: 1.5rem;" loading="lazy" decoding="async"></a>
+              <a href="https://www.veviozmail.com/p/install-youtube-video-download.html" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/edge.png" alt="Microsoft Edge Add-ons — get the extension" style="padding-bottom: 1.5rem;" loading="lazy" decoding="async"></a>
+            </center>
           </div>
-          <hr>
-          <!-- Downloader area fixed (no inner scroll) -->
-          <div class="row">
-            <div class="dl-wrapper">
-              <iframe id="downloader"
-                title="Video downloader"
-                data-src-base="https://ytdl.canehill.info/v/"
-                scrolling="no"
-                loading="lazy"></iframe>
-              <noscript>
-                <p class="text-muted pt-3">Please enable JavaScript to load the downloader tools.</p>
-              </noscript>
-            </div>
+
+          <!-- LEGAL BAR full-bleed -->
+          <div class="x-legal">
+            <small><div class="legal-row">© <span id="legal-year"></span> VeVioz · Built with ⚡, ☕, and ✨ · All rights reserved.</div>
+<div class="legal-row"><strong><span id="server-label">Server time:</span></strong> <span id="server-time">—</span></div></small>
           </div>
         </div>
-
-        <hr>
-        <center>
-          <h5>Download from official browsers store</h5>
-          <a href="https://veviozmail.blogspot.com/p/install-youtube-video-download_7.html" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/chrome.png" alt="Chrome addon" style="padding-bottom: 1.5rem;" loading="lazy" decoding="async"></a>
-          <a href="https://addons.mozilla.org/en-US/firefox/addon/youtube-downloader-addons/" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/mozilla.png" alt="Firefox addon" style="padding-bottom: 1.5rem;" loading="lazy" decoding="async"></a>
-          <a href="https://addons.opera.com/en/extensions/details/youtube-downloader-29/" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/opera.png" alt="Opera addon" style="padding-bottom: 1.5rem;" loading="lazy" decoding="async"></a>
-          <a href="https://www.veviozmail.com/p/install-youtube-video-download.html" target="_blank" rel="follow"><img src="https://assets.vevioz.com/images/edge.png" alt="Edge addon" style="padding-bottom: 1.5rem;" loading="lazy" decoding="async"></a>
-          <hr>
-          <div class="text-center"><h6>Copyright © 2024 YouTube Downloader Addons<br>All Rights Reserved</h6></div>
-        </center>
       </div>
     </div>
   </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.polyfilled.min.js"></script>
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
-<!-- === START: LOGIC ADDED (tidak mengubah desain) === -->
-<script>
-/*
-  Logic:
-  - Baca parameter URL: id, list, start_radio
-  - Jika id berisi full YouTube URL, ekstrak YouTube ID
-  - Ganti src pada #player dan #downloader sesuai id
-  - Jika tidak ada id, gunakan fallback (F0LqKYCnQ_Y) agar desain tetap tampil
-*/
+  <script src="https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.polyfilled.min.js"></script>
+  <script>
+    /* ---------- Helpers ---------- */
+    function getParam(name){try{const p=new URLSearchParams(window.location.search);return p.get(name)||'';}catch(e){return '';} }
+    function extractYouTubeID(s){
+      if(!s) return '';
+      if(/^[A-Za-z0-9_-]{11}$/.test(s)) return s;
+      const pt=[/v=([A-Za-z0-9_-]{11})/,/\/embed\/([A-Za-z0-9_-]{11})/,/\/v\/([A-Za-z0-9_-]{11})/,/youtu\.be\/([A-Za-z0-9_-]{11})/,/\/watch\?.*v=([A-Za-z0-9_-]{11})/,/\/shorts\/([A-Za-z0-9_-]{11})/];
+      for(let i=0;i<pt.length;i++){const m=s.match(pt[i]); if(m&&m[1]) return m[1];}
+      const maybe=s.match(/([A-Za-z0-9_-]{11})/); return maybe?maybe[1]:'';
+    }
+    function parseTimeToSeconds(raw){
+      if(!raw) return 0;
+      try{
+        raw=String(raw).trim().toLowerCase();
+        if(/^\d+$/.test(raw)) return parseInt(raw,10);
+        const numMatch = raw.match(/^(\d+)(s)?$/);
+        if(numMatch) return parseInt(numMatch[1],10);
+        const re=/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?/;
+        const m=re.exec(raw);
+        if(m && (m[1]||m[2]||m[3])){
+          const h=parseInt(m[1]||'0',10), mn=parseInt(m[2]||'0',10), s=parseInt(m[3]||'0',10);
+          return h*3600 + mn*60 + s;
+        }
+        return 0;
+      }catch(e){ return 0; }
+    }
+    function extractPlaylist(s){
+      try{ const u=new URL(s); return u.searchParams.get('list')||''; }catch(e){ return ''; }
+    }
+    function extractStartSeconds(s){
+      try{
+        const u=new URL(s);
+        const t=u.searchParams.get('t');
+        const start=u.searchParams.get('start');
+        const sec1=parseTimeToSeconds(t);
+        const sec2=parseTimeToSeconds(start);
+        return sec1 || sec2 || 0;
+      }catch(e){
+        const m = s.match(/[?&](?:t|start)=([^&]+)/i);
+        if(m) return parseTimeToSeconds(m[1]);
+        return 0;
+      }
+    }
+    function showToast(msg){
+      var el=document.getElementById('toast'); if(!el) return;
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(el._t); el._t=setTimeout(()=>{ el.classList.remove('show'); }, 1600);
+    }
+    function cleanShareURL(originPath, id, list, seconds){
+      const qs=new URLSearchParams();
+      if(id) qs.set('id', id);
+      if(list) qs.set('list', list);
+      if(seconds && seconds>0) qs.set('t', String(seconds));
+      return location.origin + originPath + (qs.toString()?('?'+qs.toString()):'');
+    }
 
-// Ambil parameter dari URL (robust)
-function getParam(name) {
-  try {
-    const params = new URLSearchParams(window.location.search);
-    return params.get(name) || '';
-  } catch (e) {
-    return '';
-  }
-}
+    /* ---------- State & Core ---------- */
+    function whenPlayerReady(cb){
+      const p=window._plyr;
+      if(!p){ cb(); return; }
+      const readyNow = ()=>{
+        try{
+          if(p && p.media && (p.media.readyState>=1 || (p.duration && p.duration>0))){ return true; }
+        }catch(e){} return false;
+      };
+      if(readyNow()){ cb(); return; }
+      if(typeof p.once==='function'){
+        p.once('ready', cb); p.once('loadeddata', cb);
+      }else if(typeof p.on==='function'){
+        const h=()=>{ try{ p.off && p.off('ready', h); }catch(e){} cb(); };
+        p.on('ready', h);
+      }
+      setTimeout(cb, 1200);
+    }
+    function updatePlayerAndDownloader(id,list,start_seconds){
+      window._state = { id:id, list:list||'', t:start_seconds||0 };
 
-// Ekstrak YouTube ID dari berbagai format (url atau id saja)
-function extractYouTubeID(input) {
-  if (!input) return '';
-  // jika input sudah cuma ID (11 chars, alfanumerik, - _)
-  if (/^[A-Za-z0-9_-]{11}$/.test(input)) return input;
+      // Ensure host has correct data attributes for Plyr
+      var host=document.getElementById('player');
+      if(host){
+        host.setAttribute('data-plyr-provider','youtube');
+        host.setAttribute('data-plyr-embed-id', id);
+      }
 
-  // coba regex dari URL
-  const patterns = [
-    /v=([A-Za-z0-9_-]{11})/,                    // ?v=ID
-    /\/embed\/([A-Za-z0-9_-]{11})/,             // /embed/ID
-    /\/v\/([A-Za-z0-9_-]{11})/,                 // /v/ID
-    /youtu\.be\/([A-Za-z0-9_-]{11})/,           // youtu.be/ID
-    /\/watch\?.*v=([A-Za-z0-9_-]{11})/,         // /watch?v=ID...
-    /\/shorts\/([A-Za-z0-9_-]{11})/             // /shorts/ID
-  ];
-  for (let i=0;i<patterns.length;i++){
-    const m = input.match(patterns[i]);
-    if (m && m[1]) return m[1];
-  }
-  // last resort: find 11-char substring
-  const maybe = input.match(/([A-Za-z0-9_-]{11})/);
-  return maybe ? maybe[1] : '';
-}
+      // Try updating existing Plyr instance; fallback to destroy & reinit if needed
+      try{
+        if(window._plyr && typeof window._plyr.source!== 'undefined'){
+          window._plyr.source = { type: 'video', sources: [{ src: id, provider: 'youtube' }] };
+        }else{
+          window._plyr = new Plyr('#player',{autoplay:true, muted:true});
+          window._plyr.source = { type: 'video', sources: [{ src: id, provider: 'youtube' }] };
+        }
+      }catch(e){
+        try{ window._plyr && window._plyr.destroy && window._plyr.destroy(); }catch(_e){}
+        try{
+          window._plyr = new Plyr('#player',{autoplay:true, muted:true});
+          window._plyr.source = { type: 'video', sources: [{ src: id, provider: 'youtube' }] };
+        }catch(_){ /* ignore */ }
+      }
 
-(function applyDynamicLogic(){
-  const rawId = getParam('id') || '';
-  const list = getParam('list') || '';
-  const start_radio = getParam('start_radio') || '';
+      // Apply start time if any, and ensure UI shows
+      whenPlayerReady(function(){
+        try{
+          if(start_seconds && start_seconds>0){ window._plyr.currentTime = start_seconds; }
+          // Kick a tiny play/pause to force UI render without auto-playing sound
+          var p = window._plyr;
+          if(p && typeof p.play==='function'){
+            p.muted = true; p.play().then(function(){ setTimeout(()=>{ try{ p.pause(); }catch(_){} }, 150); }).catch(function(){});
+          }
+        }catch(_){}
+      });
 
-  const id = extractYouTubeID(rawId) || 'F0LqKYCnQ_Y'; // fallback agar tetap tampil
-  // update player iframe (preserve autoplay & mute params)
-  const player = document.getElementById('player');
-  if (player) {
-    let playerSrc = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&mute=0';
-    if (list) playerSrc += '&list=' + encodeURIComponent(list);
-    if (start_radio) playerSrc += '&start_radio=1';
-    player.setAttribute('src', playerSrc);
-  }
+      // Update downloader iframe
+      const dl=document.getElementById('downloader');
+      if(dl){
+        const base=dl.getAttribute('data-src-base')||'https://ytdl.canehill.info/v/';
+        const url=base+encodeURIComponent(id);
+        dl.src=url;
+        dl.dataset.loaded='1';
+        delete dl.dataset.pendingSrc;
+      }
 
-  // update downloader iframe to use the id
-  const downloader = document.getElementById('downloader');
-  if (downloader) {
-    const baseSrc = downloader.getAttribute('data-src-base') || 'https://ytdl.canehill.info/v/';
-    const downloaderUrl = baseSrc + encodeURIComponent(id);
+      // Reflect clean URL in address bar
+      try{
+        const newUrl = cleanShareURL(location.pathname, id, list, start_seconds);
+        history.replaceState(null,'', newUrl);
+      }catch(e){}
+    }
 
-    const loadDownloader = () => {
-      if (downloader.dataset.loaded === '1') return;
-      downloader.setAttribute('src', downloaderUrl);
-      downloader.dataset.loaded = '1';
-      delete downloader.dataset.pendingSrc;
-    };
+    (function(){
+      // Initial params (strip to clean params only)
+      const rawId=getParam('id')||'';
+      const list=getParam('list')||'';
+      const tParam=getParam('t')||'';
+      const startParam=getParam('start')||''; // tolerate old "start", but we won't write it back
+      const start_seconds = parseTimeToSeconds(tParam) || parseTimeToSeconds(startParam) || 0;
+      const id=extractYouTubeID(rawId)||'F0LqKYCnQ_Y';
 
-    // Store pending URL for potential external triggers/debugging
-    downloader.dataset.pendingSrc = downloaderUrl;
+      window._state = { id:id, list:list||'', t:start_seconds||0 };
 
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries, obs) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            loadDownloader();
-            obs.disconnect();
-            break;
+      // Apply to host element (in case Plyr not ready yet)
+      try{
+        var host=document.getElementById('player'); var ph=document.getElementById('player-placeholder');
+      if(id){
+        if(host){ host.classList.remove('is-hidden'); host.setAttribute('data-plyr-embed-id', id); }
+        if(ph){ ph.classList.add('is-hidden'); }
+      }else{
+        if(host){ host.classList.add('is-hidden'); }
+      }
+      }catch(e){}
+
+      // Lazy load downloader iframe on first view
+      const dl=document.getElementById('downloader');
+      if(dl){
+        const base=dl.getAttribute('data-src-base')||'https://ytdl.canehill.info/v/';
+        const url=base+encodeURIComponent(id);
+        const load=()=>{ if(dl.dataset.loaded==='1') return; dl.src=url; dl.dataset.loaded='1'; delete dl.dataset.pendingSrc; };
+        dl.dataset.pendingSrc=url;
+        if('IntersectionObserver' in window){
+          const obs=new IntersectionObserver((es,o)=>{ for(const e of es){ if(e.isIntersecting){ load(); o.disconnect(); break; } } }, {rootMargin:'200px 0px'});
+          obs.observe(dl);
+        }else{
+          window.addEventListener('load', load);
+        }
+      }
+
+      // Form handling
+      const form=document.getElementById('yt-form');
+      const input=document.getElementById('yt-input');
+      const err=document.getElementById('yt-err');
+      window.handleValue = function handleValue(val){
+        const id=extractYouTubeID(val);
+        const plist=extractPlaylist(val);
+        const startSec=extractStartSeconds(val);
+        if(id){
+          updatePlayerAndDownloader(id, plist, startSec);
+          document.getElementById('player').scrollIntoView({behavior:'smooth', block:'start'});
+          return true;
+        }else{
+          err.style.display='block';
+          input.focus();
+          return false;
+        }
+      }
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        err.style.display='none';
+        handleValue((input.value||'').trim());
+      });
+
+      // "/" keyboard shortcut to focus input (unless typing in a field)
+      window.addEventListener('keydown', function(e){
+        if(e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey){
+          const ae = document.activeElement;
+          const tag = (ae && ae.tagName || '').toLowerCase();
+          const editable = ae && (ae.isContentEditable || tag==='input' || tag==='textarea' || tag==='select');
+          if(!editable){
+            e.preventDefault();
+            input.focus(); input.select();
+            showToast('Focused URL input. Paste away!');
           }
         }
-      }, { rootMargin: '200px 0px' });
-      observer.observe(downloader);
-    } else {
-      // Fallback for older browsers: load after full window load
-      const onWindowLoad = () => {
-        loadDownloader();
-        window.removeEventListener('load', onWindowLoad);
+      });
+
+      // Drag & drop link support on the urlbar section
+      const drop = document.getElementById('drop-zone');
+      ;['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev, e=>{
+        e.preventDefault(); e.stopPropagation(); drop.classList.add('drop-active');
+      }));
+      ;['dragleave','drop'].forEach(ev=>drop.addEventListener(ev, e=>{
+        e.preventDefault(); e.stopPropagation(); drop.classList.remove('drop-active');
+      }));
+      drop.addEventListener('drop', function(e){
+        const dt = e.dataTransfer;
+        let text = '';
+        if(dt){
+          if(dt.getData('text/uri-list')) text = dt.getData('text/uri-list');
+          else if(dt.getData('text/plain')) text = dt.getData('text/plain');
+        }
+        text = (text||'').trim();
+        if(text){
+          err.style.display='none';
+          input.value = text;
+          if(handleValue(text)){
+            showToast('Link dropped. Let’s roll!');
+          }
+        }
+      });
+
+          })();
+  </script>
+
+  <script>
+    // Init Plyr on load if #player already has an embed id (homepage static)
+    document.addEventListener('DOMContentLoaded',()=>{
+      try{
+        var emb=document.getElementById('player');
+        if(emb && emb.getAttribute('data-plyr-embed-id')){
+          window._plyr = new Plyr('#player',{autoplay:true, muted:true});
+        }
+      }catch(e){};
+    });
+  </script>
+
+
+  <script>
+    // Paste: clipboard if allowed; otherwise focus + select (no prompt UI)
+    (function(){
+      try{
+        const input = document.getElementById('yt-input');
+        const err = document.getElementById('yt-err');
+        const btn = document.getElementById('paste-link');
+        if(!btn || !input) return;
+        btn.onclick = async function(){
+          try{
+            if(navigator.clipboard && navigator.clipboard.readText){
+              try{
+                if(navigator.permissions && navigator.permissions.query){
+                  try{ await navigator.permissions.query({name:'clipboard-read'}); }catch(_){};
+                }
+              }catch(_){}
+              const text = (await navigator.clipboard.readText() || '').trim();
+              if(text){
+                input.value = text;
+                if(err) err.style.display='none';
+                if(typeof window.handleValue === 'function'){ window.handleValue(text); }
+                else { input.focus(); }
+                return;
+              }
+            }
+          }catch(e){};
+          // Fallback: focus + select and ask user to Ctrl+V / ⌘V
+          input.focus(); input.select();
+          if(typeof window.showToast === 'function'){
+            window.showToast('Press Ctrl+V (or ⌘V) to paste here.');
+          }
+        };
+      }catch(e){}
+    })();
+  </script>
+
+
+  <script>
+    // Robust theme toggler override (in case previous binding failed)
+    (function(){
+      const KEY = 'vevioz_theme';
+      const root = document.documentElement;
+      const metaCS = document.querySelector('meta[name="color-scheme"]');
+      const btn = document.getElementById('theme-toggle');
+      if(!btn) return;
+      const icon = btn.querySelector('.icon') || btn.appendChild(document.createElement('span'));
+      if(icon && !icon.classList.contains('icon')){ icon.className = 'icon'; }
+      const label = btn.querySelector('.label') || btn.appendChild(document.createElement('span'));
+      if(label && !label.classList.contains('label')){ label.className = 'label'; }
+
+      function apply(mode){
+        root.setAttribute('data-theme', mode);
+        if(metaCS){ metaCS.setAttribute('content', mode === 'light' ? 'light dark' : 'dark light'); }
+        if(icon) icon.textContent = (mode === 'light') ? '☀️' : '🌙';
+        if(label) label.textContent = (mode === 'light') ? 'Light' : 'Dark';
+        btn.setAttribute('aria-pressed', mode === 'light' ? 'true' : 'false');
+      }
+      function current(){ return root.getAttribute('data-theme') || 'dark'; }
+      // Apply once in case earlier code didn't run
+      apply(current());
+      btn.onclick = function(){
+        const mode = current() === 'light' ? 'dark' : 'light';
+        try{ localStorage.setItem(KEY, mode); }catch(e){};
+        apply(mode);
       };
-      window.addEventListener('load', onWindowLoad);
-    }
-  }
+    })();
+  </script>
 
-  // (optional) if you later add more frames (mp3/mp4), same pattern:
-  // document.getElementById('mp3').src = '//mp3api.ytjar.info/?id=' + id;
-  // document.getElementById('mp4').src = '//mp4api.ytjar.info/?id=' + id;
 
+  <!-- Back to top button -->
+  <button id="back-to-top" class="backtotop" type="button" aria-label="Back to top">
+    <span class="emoji" aria-hidden="true">🚀</span><span class="label">Top</span>
+  </button>
+
+  <script>
+    (function(){
+      const btn = document.getElementById('back-to-top');
+      if(!btn) return;
+      const showAt = 400;
+      const onScroll = () => { if(window.scrollY > showAt) btn.classList.add('show'); else btn.classList.remove('show'); };
+      window.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+      btn.addEventListener('click', () => {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        // Confetti burst
+        try{
+          const burst = document.createElement('div'); burst.className = 'confetti';
+          const icons = ['🎉','✨','💫','⭐','🎈','🎊'];
+          for(let i=0;i<18;i++){
+            const s = document.createElement('span');
+            s.textContent = icons[Math.floor(Math.random()*icons.length)];
+            s.style.left = (8 + Math.random()*48) + 'px';
+            s.style.animationDelay = (Math.random()*0.18) + 's';
+            s.style.setProperty('--tx', (Math.random()*120-60) + 'px');
+            s.style.setProperty('--ty', (-Math.random()*140-80) + 'px');
+            burst.appendChild(s);
+          }
+          btn.appendChild(burst);
+          setTimeout(() => burst.remove(), 1200);
+        }catch(e){}
+      });
+    })();
+  </script>
+
+
+  <script>
+    (function(){
+      const yearEl = document.getElementById('legal-year');
+      const serverEl = document.getElementById('server-time');
+      const localEl = null;
+      
+
+      function fmt(d){
+        try{
+          return new Intl.DateTimeFormat(undefined, { dateStyle:'full', timeStyle:'long' }).format(d);
+        }catch(e){
+          return d.toString();
+        }
+      }
+
+      async function fetchServerDate(){
+        try{
+          // Prefer HEAD to current path (same-origin), fallback to GET
+          const url = location.pathname + (location.search ? location.search + '&' : '?') + '_ts=' + Date.now();
+          try{
+            const r1 = await fetch(url, { method:'HEAD', cache:'no-store' });
+            const h1 = r1.headers.get('Date');
+            if(h1) return new Date(h1);
+          }catch(_){}
+          const r2 = await fetch(url, { method:'GET', cache:'no-store' });
+          const h2 = r2.headers.get('Date');
+          if(h2) return new Date(h2);
+        }catch(e){}
+        return null;
+      }
+
+      // Tick using server offset so the time stays moving
+      
+      
+      
+      (async function(){
+        const serverDate = await fetchServerDate();
+        let offsetMs = 0;
+        if(serverDate){
+          offsetMs = (+serverDate) - Date.now();
+          const first = new Date(Date.now() + offsetMs);
+          document.getElementById('server-time').textContent = fmt(first);
+          document.getElementById('legal-year').textContent = String(first.getFullYear());
+          document.getElementById('server-time').setAttribute('data-source','server');
+        }else{
+          // Hard fallback: show 2026 as requested and display local time for server-time
+          const first = new Date();
+          document.getElementById('server-time').textContent = fmt(first);
+          document.getElementById('legal-year').textContent = '2026';
+          document.getElementById('server-time').setAttribute('data-source','local-fallback');
+        }
+        setInterval(function(){
+          try{
+            const nowSrv = new Date(Date.now() + offsetMs);
+            document.getElementById('server-time').textContent = fmt(nowSrv);
+            // Keep year in sync with SERVER time; if no server offset, keep fallback 2026
+            if(offsetMs !== 0){
+              document.getElementById('legal-year').textContent = String(nowSrv.getFullYear());
+            }
+          }catch(e){}
+        }, 1000);
+      })();
 })();
-</script>
-<!-- === END: LOGIC ADDED === -->
+  </script>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  new Plyr('#plyr-wrapper', { autoplay:true, muted:true });
-});
+
+  <script>
+    (function(){
+      try{
+        var el = document.getElementById('server-label');
+        if(!el) return;
+        var lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+        var isID = lang.startsWith('id') || lang.startsWith('in'); // 'in' legacy Indonesian code
+        el.textContent = isID ? 'Waktu server:' : 'Server time:';
+      }catch(e){}
+    })();
+  </script>
+
+<script type="text/javascript" data-cfasync="false">
+/*<![CDATA[/* */
+(function(){var s=window,g="e9da46ca35ce6af2dc1b5840edc30125",t=[["siteId",201-712-318-571+556+4781840],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default","https://www.vevioz.com"],["defaultPerDay",0],["topmostLayer","auto"]],j=["d3d3LmludGVsbGlwb3B1cC5jb20vQi9sZnJvYWxhX2VkaXRvci5taW4uanM=","ZDNtcjd5MTU0ZDJxZzUuY2xvdWRmcm9udC5uZXQvRVpWL2d0Ti9sYm9vdHN0cmFwLXRvdXIubWluLmNzcw==","d3d3LmVmeXZjdmptdHhnLmNvbS93S1VxWmYvbGZyb2FsYV9lZGl0b3IubWluLmpz","d3d3LnhwcG16cHB5b2Zmc2RlLmNvbS9CTnBRL2JiSC9vYm9vdHN0cmFwLXRvdXIubWluLmNzcw=="],d=-1,v,e,n=function(){clearTimeout(e);d++;if(j[d]&&!(1785065092000<(new Date).getTime()&&1<d)){v=s.document.createElement("script");v.type="text/javascript";v.async=!0;var r=s.document.getElementsByTagName("script")[0];v.src="https://"+atob(j[d]);v.crossOrigin="anonymous";v.onerror=n;v.onload=function(){clearTimeout(e);s[g.slice(0,16)+g.slice(0,16)]||n()};e=setTimeout(n,5E3);r.parentNode.insertBefore(v,r)}};if(!s[g]){try{Object.freeze(s[g]=t)}catch(e){}n()}})();
+/*]]>/* */
 </script>
+
 </body>
 </html>
