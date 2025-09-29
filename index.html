@@ -288,7 +288,27 @@
       .x-legal .legal-row{ font-size:12px }
     }
 
-  </style>
+  
+    /* URL validation indicator inside the input */
+    .url-input-wrap{ position:relative; width:min(780px,100%) }
+    .x-urlbar .url-input-wrap input{ padding-right:44px }
+    .url-indicator{
+      position:absolute; right:12px; top:50%; transform:translateY(-50%);
+      font-size:20px; line-height:1; opacity:.8; pointer-events:none;
+      transition:transform .12s ease, opacity .12s ease;
+    }
+    .url-indicator.ok{ color:#22c55e }
+    .url-indicator.bad{ color:#ef4444 }
+    .url-indicator.idle{ opacity:.6 }
+    .url-indicator.punch{ transform:translateY(-50%) scale(1.1) }
+    /* Screen-reader only text */
+    .sr-only{
+      position:absolute !important; width:1px !important; height:1px !important;
+      padding:0 !important; margin:-1px !important; overflow:hidden !important;
+      clip:rect(0,0,0,0) !important; border:0 !important;
+    }
+
+</style>
 
   <!-- Third-party HEAD (kept) -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -355,12 +375,18 @@
         <span class="badge">Drag & drop links 🖱️</span>
       </div>
       <form id="yt-form" autocomplete="off" novalidate>
-        <input type="url" id="yt-input" placeholder="Paste YouTube link or 11‑char ID (add ?t=90 or ?t=1m30s to start there)" inputmode="url" aria-label="YouTube URL or video ID">
-        <div class="btns">
-          <button type="submit" id="yt-submit">DOWNLOAD</button>
-          <button type="button" id="paste-link" class="secondary" title="Paste a YouTube link from your clipboard">📋 Paste link</button>
-        </div>
-      </form>
+        
+  <div class="url-input-wrap">
+    <input type="url" id="yt-input" placeholder="Paste YouTube link or 11‑char ID (add ?t=90 or ?t=1m30s to start there)" inputmode="url" aria-label="YouTube URL or video ID" aria-describedby="url-status">
+    <span id="url-indicator" class="url-indicator idle" aria-hidden="true">🔎</span>
+  </div>
+  <div class="btns">
+<button type="button" id="paste-link" class="secondary" title="Paste a YouTube link from your clipboard">📋 Paste link</button>
+  <button type="submit" id="yt-submit">DOWNLOAD</button>
+</div>
+      
+  <p id="url-status" class="sr-only" aria-live="polite">Masukkan link YouTube atau ID.</p>
+</form>
       <div class="hint">
         Works with full YouTube links, youtu.be, Shorts, Embed, or just the ID. We update the player & downloader right here—no drama, just action. 🎬
       </div>
@@ -596,21 +622,73 @@
       const form=document.getElementById('yt-form');
       const input=document.getElementById('yt-input');
       const err=document.getElementById('yt-err');
-      window.handleValue = function handleValue(val){
+      
+      const indicator = document.getElementById('url-indicator');
+      const statusEl = document.getElementById('url-status');
+      let _lastState = 'idle';
+      let _toastGuard = 0;
+
+      function setIndicatorState(state){
+        if(!indicator) return;
+        indicator.classList.remove('ok','bad','idle','punch');
+        indicator.classList.add(state || 'idle');
+        indicator.textContent = state==='ok' ? '✅' : state==='bad' ? '❌' : '🔎';
+        if(statusEl){
+          statusEl.textContent = (state==='ok')
+            ? 'Link valid. Gas! ✅'
+            : (state==='bad' ? 'Link tidak valid. Coba lagi ya. ❌' : 'Masukkan link YouTube atau ID.');
+        }
+        // Cute little "punch" animation
+        requestAnimationFrame(()=>{
+          indicator.classList.add('punch');
+          setTimeout(()=>indicator && indicator.classList.remove('punch'), 120);
+        });
+        // Toast but only when state changes to avoid spam
+        if(state !== _lastState){
+          if(typeof window.showToast === 'function'){
+            if(state==='ok'){
+              showToast('Sip! URL valid, tinggal geber ✅');
+            }else if(state==='bad'){
+              showToast('Ealah, linknya nyasar 😅 ❌');
+            }
+          }
+          _lastState = state;
+        }
+      }
+
+      function updateIndicator(val){
+        val = (val||'').trim();
+        if(!val){ setIndicatorState('idle'); return false; }
+        const id = extractYouTubeID(val);
+        if(id){ setIndicatorState('ok'); return true; }
+        setIndicatorState('bad'); return false;
+      }
+window.handleValue = function handleValue(val){
         const id=extractYouTubeID(val);
         const plist=extractPlaylist(val);
         const startSec=extractStartSeconds(val);
         if(id){
-          updatePlayerAndDownloader(id, plist, startSec);
+          
+          try{ updateIndicator(val); }catch(_){}
+          if(typeof window.showToast === 'function'){ showToast('Gas! Link valid ✅'); }
+updatePlayerAndDownloader(id, plist, startSec);
           document.getElementById('player').scrollIntoView({behavior:'smooth', block:'start'});
           return true;
+        
         }else{
           err.style.display='block';
+          try{ updateIndicator(val); }catch(_){}
+          if(typeof window.showToast === 'function'){ showToast('Oops, link nggak valid ❌'); }
           input.focus();
           return false;
         }
       }
-      form.addEventListener('submit', function(e){
+// Live validation feedback as user types
+      input.addEventListener('input', function(){
+        if(err) err.style.display='none';
+        updateIndicator(input.value);
+      });
+form.addEventListener('submit', function(e){
         e.preventDefault();
         err.style.display='none';
         handleValue((input.value||'').trim());
@@ -691,8 +769,12 @@
               if(text){
                 input.value = text;
                 if(err) err.style.display='none';
-                if(typeof window.handleValue === 'function'){ window.handleValue(text); }
-                else { input.focus(); }
+                if(typeof window.handleValue === 'function'){
+                  window.handleValue(text);
+                }else{
+                  updateIndicator(text);
+                  input.focus();
+                }
                 return;
               }
             }
