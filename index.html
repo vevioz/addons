@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VeVioz Addons — Paste. Play. DOWNLOAD! 💥🎉</title>
+  <title>VeVioz YouTube Downloader Addons — Paste. Play. DOWNLOAD! 💥🎉</title>
   <meta name="description" content="Drop your YouTube link, boom—instant preview, instant DOWNLOAD. No pop‑ups, no new tabs, just vibes and speed. 🚀" />
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="#3b5998">
@@ -385,7 +385,7 @@
   <button type="submit" id="yt-submit">DOWNLOAD</button>
 </div>
       
-  <p id="url-status" class="sr-only" aria-live="polite">Masukkan link YouTube atau ID.</p>
+  <p id="url-status" class="sr-only" aria-live="polite">Enter a YouTube link or ID.</p>
 </form>
       <div class="hint">
         Works with full YouTube links, youtu.be, Shorts, Embed, or just the ID. We update the player & downloader right here—no drama, just action. 🎬
@@ -413,7 +413,7 @@
                 </div>
               </div>
             </div>
-            <div id="player" class="is-hidden\" data-plyr-provider="youtube" data-plyr-embed-id="F0LqKYCnQ_Y"></div>
+            <div id="player" class="is-hidden" data-plyr-provider="youtube" data-plyr-embed-id="F0LqKYCnQ_Y"></div>
             </div>
             <hr>
             <div class="row">
@@ -635,8 +635,8 @@
         indicator.textContent = state==='ok' ? '✅' : state==='bad' ? '❌' : '🔎';
         if(statusEl){
           statusEl.textContent = (state==='ok')
-            ? 'Link valid. Gas! ✅'
-            : (state==='bad' ? 'Link tidak valid. Coba lagi ya. ❌' : 'Masukkan link YouTube atau ID.');
+            ? "Valid link. Let’s go! ✅"
+            : (state==='bad' ? "Invalid link. Please try again. ❌" : "Enter a YouTube link or ID.");
         }
         // Cute little "punch" animation
         requestAnimationFrame(()=>{
@@ -647,9 +647,9 @@
         if(state !== _lastState){
           if(typeof window.showToast === 'function'){
             if(state==='ok'){
-              showToast('Sip! URL valid, tinggal geber ✅');
+              showToast("Nice! Valid URL — you're good to go ✅");
             }else if(state==='bad'){
-              showToast('Ealah, linknya nyasar 😅 ❌');
+              showToast("Whoops! That link doesn't look right 😅 ❌");
             }
           }
           _lastState = state;
@@ -670,7 +670,7 @@ window.handleValue = function handleValue(val){
         if(id){
           
           try{ updateIndicator(val); }catch(_){}
-          if(typeof window.showToast === 'function'){ showToast('Gas! Link valid ✅'); }
+          if(typeof window.showToast === 'function'){ showToast("Go time! Valid link ✅"); }
 updatePlayerAndDownloader(id, plist, startSec);
           document.getElementById('player').scrollIntoView({behavior:'smooth', block:'start'});
           return true;
@@ -678,7 +678,7 @@ updatePlayerAndDownloader(id, plist, startSec);
         }else{
           err.style.display='block';
           try{ updateIndicator(val); }catch(_){}
-          if(typeof window.showToast === 'function'){ showToast('Oops, link nggak valid ❌'); }
+          if(typeof window.showToast === 'function'){ showToast("Oops, invalid link ❌"); }
           input.focus();
           return false;
         }
